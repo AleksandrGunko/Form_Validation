@@ -15,15 +15,14 @@ var generateError = function (text) {
   return error
 }
 
-form.addEventListener('submit', function (event) {
-  event.preventDefault()
-
+var removeValidation = function () {
   var errors = form.querySelectorAll('.error')
 
   for (var i = 0; i < errors.length; i++) {
     errors[i].remove()
   }
-
+}
+var checkFieldsPresence = function () {
   for (var i = 0; i < fields.length; i++) {
     if (!fields[i].value) {
       console.log('field is blank', fields[i])
@@ -31,10 +30,21 @@ form.addEventListener('submit', function (event) {
       form[i].parentElement.insertBefore(error, fields[i])
     }
   }
-
+}
+var checkPasswordMatch = function () {
   if (password.value !== passwordConfirmation.value) {
     console.log('not equals')
     var error = generateError('Password doesnt match')
+    console.log(error)
     password.parentElement.insertBefore(error, password)
   }
+}
+form.addEventListener('submit', function (event) {
+  event.preventDefault()
+
+  removeValidation()
+
+  checkFieldsPresence()
+
+  checkPasswordMatch()
 })
